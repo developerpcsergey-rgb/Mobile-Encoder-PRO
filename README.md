@@ -133,7 +133,7 @@ mobile-encryptor-pro/
 ├── LICENSE                 # Лицензия MIT
 └── examples/               # Примеры файлов
 ├── encrypted_sample.enc
-└── documentation.pdf
+└── documentation.html
 
 ```
 
