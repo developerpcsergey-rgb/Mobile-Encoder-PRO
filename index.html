@@ -1,0 +1,2658 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>🔐 Мобильный Шифратор PRO</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #7209b7;
+            --success: #4cc9f0;
+            --danger: #f72585;
+            --warning: #f8961e;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --gray: #6c757d;
+            --border-radius: 12px;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 10px;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 20px 15px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 10px;
+        }
+        
+        .security-badge {
+            display: inline-flex;
+            align-items: center;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            gap: 5px;
+        }
+        
+        .tabs {
+            display: flex;
+            background: var(--light);
+            border-bottom: 1px solid #dee2e6;
+        }
+        
+        .tab {
+            flex: 1;
+            padding: 15px 5px;
+            text-align: center;
+            background: none;
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+            border-bottom: 3px solid transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .tab i {
+            font-size: 1.2rem;
+        }
+        
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px 15px;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .card {
+            background: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid #e9ecef;
+        }
+        
+        .card-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.95rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: white;
+        }
+        
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .password-wrapper {
+            position: relative;
+        }
+        
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--gray);
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 5px;
+            z-index: 2;
+        }
+        
+        .buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 12px;
+            margin-top: 25px;
+        }
+        
+        .btn {
+            padding: 16px 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 56px;
+        }
+        
+        .btn:active {
+            transform: translateY(2px);
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background: var(--gray);
+            color: white;
+        }
+        
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .btn-outline {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .alert {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+        
+        .alert i {
+            font-size: 1.2rem;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        
+        .alert-info {
+            background: #e3f2fd;
+            color: #0c5460;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border-left: 4px solid var(--warning);
+        }
+        
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border-left: 4px solid #28a745;
+        }
+        
+        .alert-danger {
+            background: #f8d7da;
+            color: #721c24;
+            border-left: 4px solid var(--danger);
+        }
+        
+        .result-container {
+            margin-top: 25px;
+            display: none;
+        }
+        
+        .result-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 10px;
+            border: 1px solid #e9ecef;
+            max-height: 200px;
+            overflow-y: auto;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-input-label {
+            display: block;
+            padding: 15px;
+            background: var(--light);
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            text-align: center;
+            color: var(--gray);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .file-input-label:hover {
+            border-color: var(--primary);
+            background: rgba(67, 97, 238, 0.05);
+        }
+        
+        .file-info {
+            margin-top: 10px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+        
+        .selected-files-list {
+            margin-top: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            border: 1px solid #e9ecef;
+        }
+        
+        .file-item-info {
+            flex-grow: 1;
+        }
+        
+        .file-item-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .file-item-size {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        
+        .remove-file-btn {
+            background: none;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 5px;
+        }
+        
+        .progress-container {
+            margin: 20px 0;
+            display: none;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--success));
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .status-bar {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px 15px;
+            color: var(--gray);
+            font-size: 0.85rem;
+            border-top: 1px solid #e9ecef;
+            background: var(--light);
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: var(--border-radius);
+            width: 100%;
+            max-width: 500px;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease;
+        }
+        
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .modal-body {
+            padding: 20px;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--gray);
+        }
+        
+        .password-strength {
+            margin-top: 8px;
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .strength-meter {
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+        
+        .settings-group {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+        
+        .settings-group:last-child {
+            border-bottom: none;
+        }
+        
+        .settings-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .file-extension-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .extension-option {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .custom-extension {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .custom-extension input {
+            flex-grow: 1;
+            padding: 8px 12px;
+            border: 1px solid #dee2e6;
+            border-radius: 6px;
+        }
+        
+        .folder-info {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 15px 0;
+            border: 1px solid #e9ecef;
+        }
+        
+        .folder-path {
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+            margin: 10px 0;
+            padding: 10px;
+            background: white;
+            border-radius: 5px;
+            border: 1px solid #dee2e6;
+        }
+        
+        .file-output-name {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .file-output-name input {
+            flex-grow: 1;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+        
+        .file-output-name input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .locked-folder {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            text-align: center;
+        }
+        
+        .locked-folder i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            .container {
+                margin: 0 5px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tab {
+                padding: 12px 5px;
+                font-size: 0.85rem;
+            }
+            
+            .tab i {
+                font-size: 1rem;
+            }
+            
+            .card {
+                padding: 15px;
+            }
+            
+            .btn {
+                padding: 14px 16px;
+                font-size: 0.95rem;
+                min-height: 52px;
+            }
+            
+            .buttons-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            textarea.form-control {
+                min-height: 100px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 15px 10px;
+            }
+            
+            .tab-content {
+                padding: 15px 10px;
+            }
+            
+            .form-control {
+                padding: 12px;
+            }
+            
+            .btn {
+                padding: 12px 14px;
+            }
+            
+            .alert {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+        }
+        
+        /* Портретный режим */
+        @media (orientation: portrait) {
+            .buttons-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        /* Ландшафтный режим */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .container {
+                max-height: 90vh;
+                overflow-y: auto;
+            }
+            
+            .header {
+                padding: 10px 15px;
+            }
+            
+            .tab {
+                padding: 10px 5px;
+            }
+        }
+        
+        /* Темная тема */
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --light: #2d3748;
+                --dark: #f7fafc;
+                --gray: #a0aec0;
+            }
+            
+            body {
+                background: linear-gradient(135deg, #4c51bf 0%, #702459 100%);
+            }
+            
+            .container {
+                background: #1a202c;
+                color: var(--dark);
+            }
+            
+            .card {
+                background: #2d3748;
+                border-color: #4a5568;
+            }
+            
+            .form-control {
+                background: #2d3748;
+                border-color: #4a5568;
+                color: var(--dark);
+            }
+            
+            .result-box {
+                background: #2d3748;
+                border-color: #4a5568;
+            }
+            
+            .file-input-label {
+                background: #2d3748;
+                border-color: #4a5568;
+                color: var(--gray);
+            }
+            
+            .alert-info {
+                background: #2c5282;
+                color: #bee3f8;
+            }
+            
+            .alert-warning {
+                background: #744210;
+                color: #feebc8;
+            }
+            
+            .alert-success {
+                background: #22543d;
+                color: #c6f6d5;
+            }
+            
+            .alert-danger {
+                background: #742a2a;
+                color: #fed7d7;
+            }
+            
+            .file-item {
+                background: #2d3748;
+                border-color: #4a5568;
+            }
+            
+            .settings-group {
+                border-bottom: 1px solid #4a5568;
+            }
+            
+            .custom-extension input {
+                background: #2d3748;
+                border-color: #4a5568;
+                color: var(--dark);
+            }
+            
+            .folder-info {
+                background: #2d3748;
+                border-color: #4a5568;
+            }
+            
+            .folder-path {
+                background: #1a202c;
+                border-color: #4a5568;
+            }
+            
+            .file-output-name input {
+                background: #2d3748;
+                border-color: #4a5568;
+                color: var(--dark);
+            }
+            
+            .locked-folder {
+                background: linear-gradient(135deg, #4c51bf 0%, #702459 100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Шапка -->
+        <div class="header">
+            <h1><i class="fas fa-lock"></i> Мобильный Шифратор PRO</h1>
+            <div class="subtitle">AES-256 шифрование с управлением файлами</div>
+            <div class="security-badge">
+                <i class="fas fa-shield-alt"></i>
+                <span>Все данные обрабатываются локально</span>
+            </div>
+        </div>
+        
+        <!-- Вкладки -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('encrypt')">
+                <i class="fas fa-lock"></i>
+                <span>Шифровать</span>
+            </button>
+            <button class="tab" onclick="switchTab('decrypt')">
+                <i class="fas fa-unlock"></i>
+                <span>Дешифровать</span>
+            </button>
+            <button class="tab" onclick="switchTab('files')">
+                <i class="fas fa-file"></i>
+                <span>Файлы</span>
+            </button>
+            <button class="tab" onclick="switchTab('storage')">
+                <i class="fas fa-folder"></i>
+                <span>Хранилище</span>
+            </button>
+            <button class="tab" onclick="switchTab('settings')">
+                <i class="fas fa-cog"></i>
+                <span>Настройки</span>
+            </button>
+        </div>
+        
+        <!-- Контент вкладок -->
+        
+        <!-- Вкладка шифрования -->
+        <div id="encrypt" class="tab-content active">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <div>Все операции выполняются в вашем браузере. Данные никуда не отправляются.</div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-edit"></i> Текст для шифрования</h3>
+                <textarea id="plainText" class="form-control" placeholder="Введите ваш текст здесь..."></textarea>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-file-signature"></i> Имя выходного файла</h3>
+                <div class="file-output-name">
+                    <input type="text" id="outputFileName" class="form-control" placeholder="Введите имя файла (без расширения)" value="encrypted_data">
+                    <select id="fileExtension" class="form-control" style="width: auto; min-width: 120px;">
+                        <option value=".enc">.enc</option>
+                        <option value=".crypt">.crypt</option>
+                        <option value=".aes">.aes</option>
+                        <option value=".safe">.safe</option>
+                        <option value=".secure">.secure</option>
+                        <option value=".locked">.locked</option>
+                        <option value=".vault">.vault</option>
+                        <option value=".cipher">.cipher</option>
+                        <option value="custom">Другое...</option>
+                    </select>
+                </div>
+                <div class="custom-extension" id="customExtensionContainer" style="display: none;">
+                    <input type="text" id="customExtension" placeholder=".ваше_расширение" maxlength="10">
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-key"></i> Пароль</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Пароль для шифрования</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="encryptPassword" class="form-control" placeholder="Введите надежный пароль">
+                        <button type="button" class="toggle-password" onclick="togglePassword('encryptPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-meter" id="passwordStrength"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Подтвердите пароль</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="encryptPasswordConfirm" class="form-control" placeholder="Повторите пароль">
+                        <button type="button" class="toggle-password" onclick="togglePassword('encryptPasswordConfirm')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="buttons-grid">
+                <button class="btn btn-primary" onclick="encryptText()">
+                    <i class="fas fa-lock"></i>
+                    <span>Зашифровать и сохранить</span>
+                </button>
+                <button class="btn btn-secondary" onclick="clearEncryptForm()">
+                    <i class="fas fa-broom"></i>
+                    <span>Очистить</span>
+                </button>
+            </div>
+            
+            <div class="result-container" id="encryptResult">
+                <h3 class="card-title"><i class="fas fa-file-code"></i> Результат</h3>
+                <div class="result-box" id="encryptedOutput"></div>
+                <div class="buttons-grid" style="margin-top: 15px;">
+                    <button class="btn btn-success" onclick="copyResult('encryptedOutput')">
+                        <i class="fas fa-copy"></i>
+                        <span>Копировать</span>
+                    </button>
+                    <button class="btn btn-primary" onclick="saveEncryptedFile()">
+                        <i class="fas fa-download"></i>
+                        <span>Сохранить файл</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Вкладка дешифрования -->
+        <div id="decrypt" class="tab-content">
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <div>Пароль должен точно совпадать с тем, который использовался при шифровании.</div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-file-contract"></i> Зашифрованные данные</h3>
+                <textarea id="encryptedText" class="form-control" placeholder="Вставьте зашифрованные данные..."></textarea>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-key"></i> Пароль для дешифровки</h3>
+                <div class="password-wrapper">
+                    <input type="password" id="decryptPassword" class="form-control" placeholder="Введите пароль">
+                    <button type="button" class="toggle-password" onclick="togglePassword('decryptPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="buttons-grid">
+                <button class="btn btn-primary" onclick="decryptText()">
+                    <i class="fas fa-unlock"></i>
+                    <span>Дешифровать</span>
+                </button>
+                <button class="btn btn-success" onclick="loadFromFile('encryptedText')">
+                    <i class="fas fa-folder-open"></i>
+                    <span>Загрузить файл</span>
+                </button>
+                <button class="btn btn-secondary" onclick="clearDecryptForm()">
+                    <i class="fas fa-broom"></i>
+                    <span>Очистить</span>
+                </button>
+            </div>
+            
+            <div class="result-container" id="decryptResult">
+                <h3 class="card-title"><i class="fas fa-file-alt"></i> Расшифрованный текст</h3>
+                <div class="result-box" id="decryptedOutput"></div>
+                <div class="buttons-grid" style="margin-top: 15px;">
+                    <button class="btn btn-success" onclick="copyResult('decryptedOutput')">
+                        <i class="fas fa-copy"></i>
+                        <span>Копировать</span>
+                    </button>
+                    <button class="btn btn-primary" onclick="saveDecryptedFile()">
+                        <i class="fas fa-download"></i>
+                        <span>Сохранить как текст</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Вкладка работы с файлами -->
+        <div id="files" class="tab-content">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <div>Поддерживаются любые типы файлов. Максимальный размер зависит от доступной памяти. Можно выбрать до 10 файлов одновременно.</div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-file-export"></i> Шифрование файлов</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Имя выходного файла</label>
+                    <div class="file-output-name">
+                        <input type="text" id="filesOutputName" class="form-control" placeholder="Введите имя файла" value="encrypted_files">
+                        <select id="filesExtension" class="form-control" style="width: auto; min-width: 120px;">
+                            <option value=".enc">.enc</option>
+                            <option value=".crypt">.crypt</option>
+                            <option value=".aes">.aes</option>
+                            <option value=".safe">.safe</option>
+                            <option value=".vault">.vault</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="file-input-wrapper">
+                    <input type="file" id="fileToEncrypt" class="form-control" multiple>
+                    <label class="file-input-label" for="fileToEncrypt">
+                        <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                        <div style="margin-top: 10px; font-weight: 600;">Выберите файлы для шифрования</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">Нажмите или перетащите файлы (до 10 файлов)</div>
+                    </label>
+                </div>
+                
+                <div class="file-info" id="encryptFileInfo">
+                    <div class="selected-files-list" id="encryptSelectedFiles"></div>
+                </div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label class="form-label">Пароль для шифрования</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="fileEncryptPassword" class="form-control" placeholder="Введите пароль">
+                        <button type="button" class="toggle-password" onclick="togglePassword('fileEncryptPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="progress-container" id="encryptProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div style="text-align: center; margin-top: 5px; font-size: 0.9rem;" id="encryptProgressText">0%</div>
+                </div>
+                
+                <div class="buttons-grid" style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="encryptFiles()">
+                        <i class="fas fa-lock"></i>
+                        <span>Зашифровать файлы</span>
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearSelectedFiles('encrypt')">
+                        <i class="fas fa-trash"></i>
+                        <span>Очистить список</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-file-import"></i> Дешифрование файла</h3>
+                
+                <div class="file-input-wrapper">
+                    <input type="file" id="fileToDecrypt" accept=".enc,.crypt,.aes,.safe,.secure,.locked,.vault,.cipher" class="form-control">
+                    <label class="file-input-label" for="fileToDecrypt">
+                        <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                        <div style="margin-top: 10px; font-weight: 600;">Выберите файл для дешифрования</div>
+                        <div style="font-size: 0.9rem; margin-top: 5px;">Файлы с зашифрованными данными</div>
+                    </label>
+                </div>
+                
+                <div class="file-info" id="decryptFileInfo"></div>
+                
+                <div class="form-group" style="margin-top: 20px;">
+                    <label class="form-label">Пароль для дешифровки</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="fileDecryptPassword" class="form-control" placeholder="Введите пароль">
+                        <button type="button" class="toggle-password" onclick="togglePassword('fileDecryptPassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="progress-container" id="decryptProgress">
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div style="text-align: center; margin-top: 5px; font-size: 0.9rem;" id="decryptProgressText">0%</div>
+                </div>
+                
+                <div class="buttons-grid" style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="decryptFile()">
+                        <i class="fas fa-unlock"></i>
+                        <span>Дешифровать файл</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Новая вкладка Хранилище -->
+        <div id="storage" class="tab-content">
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <div>Виртуальное хранилище для ваших зашифрованных файлов. Все данные хранятся локально в браузере.</div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-folder-plus"></i> Настроить хранилище</h3>
+                
+                <div class="form-group">
+                    <label class="form-label">Имя хранилища</label>
+                    <input type="text" id="storageName" class="form-control" placeholder="Мое безопасное хранилище" value="Защищенное Хранилище">
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Пароль для доступа к хранилищу</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="storagePassword" class="form-control" placeholder="Создайте мастер-пароль">
+                        <button type="button" class="toggle-password" onclick="togglePassword('storagePassword')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">Подтвердите пароль</label>
+                    <div class="password-wrapper">
+                        <input type="password" id="storagePasswordConfirm" class="form-control" placeholder="Повторите мастер-пароль">
+                        <button type="button" class="toggle-password" onclick="togglePassword('storagePasswordConfirm')">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="buttons-grid">
+                    <button class="btn btn-success" onclick="setupStorage()">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Настроить хранилище</span>
+                    </button>
+                    <button class="btn btn-primary" onclick="accessStorage()" id="accessStorageBtn" style="display: none;">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Открыть хранилище</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="card" id="storageInfoCard" style="display: none;">
+                <h3 class="card-title"><i class="fas fa-folder-open"></i> Текущее хранилище</h3>
+                
+                <div class="folder-info">
+                    <div><strong>Имя:</strong> <span id="currentStorageName"></span></div>
+                    <div><strong>Создано:</strong> <span id="storageCreated"></span></div>
+                    <div><strong>Файлов:</strong> <span id="storageFileCount">0</span></div>
+                    <div class="folder-path" id="virtualPath">/Защищенное_Хранилище/</div>
+                </div>
+                
+                <div class="locked-folder">
+                    <i class="fas fa-lock"></i>
+                    <div>Хранилище защищено мастер-паролем</div>
+                    <div style="font-size: 0.9rem; margin-top: 5px;">Доступ только после ввода пароля</div>
+                </div>
+                
+                <div class="buttons-grid" style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="addFileToStorage()">
+                        <i class="fas fa-plus"></i>
+                        <span>Добавить файл</span>
+                    </button>
+                    <button class="btn btn-success" onclick="browseStorage()">
+                        <i class="fas fa-search"></i>
+                        <span>Просмотреть файлы</span>
+                    </button>
+                    <button class="btn btn-danger" onclick="clearStorage()">
+                        <i class="fas fa-trash"></i>
+                        <span>Очистить хранилище</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Вкладка настроек -->
+        <div id="settings" class="tab-content">
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-user-shield"></i> Безопасность</h3>
+                
+                <div class="settings-group">
+                    <div class="form-group">
+                        <label class="form-label">Количество итераций PBKDF2</label>
+                        <select id="iterations" class="form-control">
+                            <option value="50000">50,000 (быстро)</option>
+                            <option value="100000" selected>100,000 (рекомендуется)</option>
+                            <option value="300000">300,000 (высокая безопасность)</option>
+                            <option value="600000">600,000 (максимальная)</option>
+                        </select>
+                        <div style="font-size: 0.85rem; color: var(--gray); margin-top: 5px;">
+                            Больше итераций = лучше защита от перебора, но медленнее работа
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" id="autoClear" checked>
+                            Автоматически очищать формы после работы
+                        </label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">
+                            <input type="checkbox" id="hidePasswords" checked>
+                            Скрывать пароли по умолчанию
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="settings-group">
+                    <h4 class="settings-title"><i class="fas fa-file-export"></i> Настройки файлов</h4>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Расширения по умолчанию для зашифрованных файлов</label>
+                        <div class="file-extension-group">
+                            <label class="extension-option">
+                                <input type="checkbox" id="extEnc" checked> .enc
+                            </label>
+                            <label class="extension-option">
+                                <input type="checkbox" id="extCrypt"> .crypt
+                            </label>
+                            <label class="extension-option">
+                                <input type="checkbox" id="extAes"> .aes
+                            </label>
+                            <label class="extension-option">
+                                <input type="checkbox" id="extSafe"> .safe
+                            </label>
+                            <label class="extension-option">
+                                <input type="checkbox" id="extSecure"> .secure
+                            </label>
+                            <label class="extension-option">
+                                <input type="checkbox" id="extLocked"> .locked
+                            </label>
+                            <label class="extension-option">
+                                <input type="checkbox" id="extVault"> .vault
+                            </label>
+                            <label class="extension-option">
+                                <input type="checkbox" id="extCipher"> .cipher
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Папка для сохранения по умолчанию</label>
+                        <input type="text" id="defaultFolderName" class="form-control" placeholder="Encrypted_Files" value="Encrypted_Files">
+                        <div style="font-size: 0.85rem; color: var(--gray); margin-top: 5px;">
+                            Имя папки, которое будет предлагаться при сохранении
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h3 class="card-title"><i class="fas fa-info-circle"></i> О программе</h3>
+                
+                <div style="line-height: 1.8;">
+                    <p><strong>Версия:</strong> 3.0.0 PRO</p>
+                    <p><strong>Алгоритмы:</strong> AES-256-GCM, PBKDF2, SHA-256</p>
+                    <p><strong>Формат данных:</strong> Бинарный с минимальным заголовком</p>
+                    <p><strong>Лицензия:</strong> MIT Open Source</p>
+                    <p><strong>Новые возможности:</strong></p>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>Упрощенный формат зашифрованных данных</li>
+                        <li>Выбор расширения файла</li>
+                        <li>Виртуальное защищенное хранилище</li>
+                        <li>Управление выходными именами файлов</li>
+                        <li>Улучшенный интерфейс управления</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="buttons-grid">
+                <button class="btn btn-success" onclick="exportSettings()">
+                    <i class="fas fa-save"></i>
+                    <span>Сохранить настройки</span>
+                </button>
+                <button class="btn btn-warning" onclick="resetSettings()">
+                    <i class="fas fa-redo"></i>
+                    <span>Сбросить настройки</span>
+                </button>
+                <button class="btn btn-primary" onclick="saveOffline()">
+                    <i class="fas fa-download"></i>
+                    <span>Сохранить оффлайн</span>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Подвал -->
+        <div class="footer">
+            <div>🔐 Мобильный Шифратор PRO v3.0</div>
+            <div style="font-size: 0.8rem; margin-top: 5px; color: #adb5bd;">
+                Все данные обрабатываются в вашем браузере • Никакая информация не отправляется в сеть
+            </div>
+        </div>
+    </div>
+    
+    <!-- Статус бар -->
+    <div class="status-bar" id="statusBar">
+        <i class="fas fa-check-circle"></i>
+        <span id="statusText">Операция завершена</span>
+    </div>
+    
+    <!-- Модальное окно выбора папки (виртуальное) -->
+    <div class="modal" id="folderModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 style="margin: 0;"><i class="fas fa-folder"></i> Выберите виртуальную папку</h3>
+                <button class="close-modal" onclick="closeModal('folderModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="virtualFolderList"></div>
+                <div class="form-group" style="margin-top: 15px;">
+                    <input type="text" id="newFolderName" class="form-control" placeholder="Новая папка">
+                    <button class="btn btn-primary" style="margin-top: 10px; width: 100%;" onclick="createVirtualFolder()">
+                        <i class="fas fa-plus"></i> Создать новую папку
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Основные переменные
+        let iterations = 100000;
+        let autoClear = true;
+        let hidePasswords = true;
+        let selectedFiles = [];
+        const MAX_FILES = 10;
+        let storagePassword = null;
+        let isStorageSetup = false;
+        let virtualStorage = {
+            name: '',
+            created: '',
+            files: [],
+            folders: []
+        };
+        
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', function() {
+            loadSettings();
+            setupEventListeners();
+            checkCryptoSupport();
+            checkStorageStatus();
+            
+            // Инициализация выбора расширения
+            document.getElementById('fileExtension').addEventListener('change', function() {
+                const customContainer = document.getElementById('customExtensionContainer');
+                if (this.value === 'custom') {
+                    customContainer.style.display = 'flex';
+                } else {
+                    customContainer.style.display = 'none';
+                }
+            });
+            
+            // Показываем приветственное сообщение
+            setTimeout(() => {
+                if (!localStorage.getItem('cryptoAppFirstRun')) {
+                    showStatus('Добро пожаловать в Мобильный Шифратор PRO! Настройте хранилище для безопасного хранения файлов.', 'info');
+                    localStorage.setItem('cryptoAppFirstRun', 'true');
+                }
+            }, 1000);
+        });
+        
+        // Проверка поддержки Web Crypto API
+        function checkCryptoSupport() {
+            if (!window.crypto || !window.crypto.subtle) {
+                showStatus('Ваш браузер не поддерживает Web Crypto API. Пожалуйста, обновите браузер.', 'danger');
+                return false;
+            }
+            return true;
+        }
+        
+        // Проверка статуса хранилища
+        function checkStorageStatus() {
+            const savedStorage = localStorage.getItem('cryptoAppStorage');
+            if (savedStorage) {
+                try {
+                    const storageData = JSON.parse(savedStorage);
+                    if (storageData.name) {
+                        isStorageSetup = true;
+                        virtualStorage = storageData;
+                        document.getElementById('accessStorageBtn').style.display = 'block';
+                    }
+                } catch (e) {
+                    console.error('Ошибка загрузки хранилища:', e);
+                }
+            }
+        }
+        
+        // Загрузка настроек
+        function loadSettings() {
+            const saved = localStorage.getItem('cryptoAppSettings');
+            if (saved) {
+                try {
+                    const settings = JSON.parse(saved);
+                    iterations = settings.iterations || 100000;
+                    autoClear = settings.autoClear !== false;
+                    hidePasswords = settings.hidePasswords !== false;
+                    
+                    document.getElementById('iterations').value = iterations;
+                    document.getElementById('autoClear').checked = autoClear;
+                    document.getElementById('hidePasswords').checked = hidePasswords;
+                } catch (e) {
+                    console.error('Ошибка загрузки настроек:', e);
+                }
+            }
+            
+            // Загружаем настройки расширений
+            const savedExtensions = localStorage.getItem('cryptoAppExtensions');
+            if (savedExtensions) {
+                try {
+                    const extensions = JSON.parse(savedExtensions);
+                    document.getElementById('extEnc').checked = extensions.enc !== false;
+                    document.getElementById('extCrypt').checked = extensions.crypt || false;
+                    document.getElementById('extAes').checked = extensions.aes || false;
+                    document.getElementById('extSafe').checked = extensions.safe || false;
+                    document.getElementById('extSecure').checked = extensions.secure || false;
+                    document.getElementById('extLocked').checked = extensions.locked || false;
+                    document.getElementById('extVault').checked = extensions.vault || false;
+                    document.getElementById('extCipher').checked = extensions.cipher || false;
+                } catch (e) {
+                    console.error('Ошибка загрузки расширений:', e);
+                }
+            }
+            
+            // Загружаем имя папки по умолчанию
+            const defaultFolder = localStorage.getItem('cryptoAppDefaultFolder');
+            if (defaultFolder) {
+                document.getElementById('defaultFolderName').value = defaultFolder;
+            }
+        }
+        
+        // Сохранение настроек
+        function saveSettings() {
+            const settings = {
+                iterations: parseInt(document.getElementById('iterations').value),
+                autoClear: document.getElementById('autoClear').checked,
+                hidePasswords: document.getElementById('hidePasswords').checked
+            };
+            localStorage.setItem('cryptoAppSettings', JSON.stringify(settings));
+            
+            iterations = settings.iterations;
+            autoClear = settings.autoClear;
+            hidePasswords = settings.hidePasswords;
+        }
+        
+        // Экспорт настроек
+        function exportSettings() {
+            saveSettings();
+            
+            // Сохраняем настройки расширений
+            const extensions = {
+                enc: document.getElementById('extEnc').checked,
+                crypt: document.getElementById('extCrypt').checked,
+                aes: document.getElementById('extAes').checked,
+                safe: document.getElementById('extSafe').checked,
+                secure: document.getElementById('extSecure').checked,
+                locked: document.getElementById('extLocked').checked,
+                vault: document.getElementById('extVault').checked,
+                cipher: document.getElementById('extCipher').checked
+            };
+            
+            localStorage.setItem('cryptoAppExtensions', JSON.stringify(extensions));
+            localStorage.setItem('cryptoAppDefaultFolder', document.getElementById('defaultFolderName').value);
+            
+            showStatus('Все настройки сохранены', 'success');
+        }
+        
+        // Сброс настроек
+        function resetSettings() {
+            if (confirm('Вы уверены, что хотите сбросить все настройки?')) {
+                localStorage.removeItem('cryptoAppSettings');
+                localStorage.removeItem('cryptoAppExtensions');
+                localStorage.removeItem('cryptoAppDefaultFolder');
+                location.reload();
+            }
+        }
+        
+        // Сохранение оффлайн
+        function saveOffline() {
+            const htmlContent = document.documentElement.outerHTML;
+            const blob = new Blob([htmlContent], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'mobile_encryptor_pro.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showStatus('Страница сохранена для оффлайн использования!', 'success');
+        }
+        
+        // Переключение вкладок
+        function switchTab(tabName) {
+            // Скрыть все вкладки
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Показать выбранную вкладку
+            document.getElementById(tabName).classList.add('active');
+            
+            // Обновить активную кнопку
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.currentTarget.classList.add('active');
+            
+            // Прокрутить вверх
+            window.scrollTo(0, 0);
+        }
+        
+        // Переключение видимости пароля
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.className = 'fas fa-eye-slash';
+            } else {
+                input.type = 'password';
+                icon.className = 'fas fa-eye';
+            }
+        }
+        
+        // Показать статус
+        function showStatus(message, type = 'success') {
+            const statusBar = document.getElementById('statusBar');
+            const statusText = document.getElementById('statusText');
+            const icon = statusBar.querySelector('i');
+            
+            // Установить цвет и иконку
+            statusBar.style.background = getStatusColor(type);
+            icon.className = getStatusIcon(type);
+            statusText.textContent = message;
+            
+            // Показать
+            statusBar.style.display = 'flex';
+            
+            // Скрыть через 3 секунды
+            setTimeout(() => {
+                statusBar.style.display = 'none';
+            }, 3000);
+        }
+        
+        function getStatusColor(type) {
+            switch(type) {
+                case 'success': return '#28a745';
+                case 'error': return '#dc3545';
+                case 'warning': return '#ffc107';
+                case 'info': return '#17a2b8';
+                default: return '#6c757d';
+            }
+        }
+        
+        function getStatusIcon(type) {
+            switch(type) {
+                case 'success': return 'fas fa-check-circle';
+                case 'error': return 'fas fa-exclamation-circle';
+                case 'warning': return 'fas fa-exclamation-triangle';
+                case 'info': return 'fas fa-info-circle';
+                default: return 'fas fa-info-circle';
+            }
+        }
+        
+        // Проверка силы пароля
+        function checkPasswordStrength(password) {
+            let strength = 0;
+            
+            if (password.length >= 8) strength += 1;
+            if (password.length >= 12) strength += 1;
+            if (/[a-z]/.test(password) && /[A-Z]/.test(password)) strength += 1;
+            if (/\d/.test(password)) strength += 1;
+            if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+            
+            return Math.min(strength, 5);
+        }
+        
+        // Обновление индикатора силы пароля
+        function updatePasswordStrength() {
+            const password = document.getElementById('encryptPassword').value;
+            const strength = checkPasswordStrength(password);
+            const meter = document.getElementById('passwordStrength');
+            
+            let color, width;
+            switch(strength) {
+                case 0: width = '0%'; color = '#e9ecef'; break;
+                case 1: width = '20%'; color = '#dc3545'; break;
+                case 2: width = '40%'; color = '#fd7e14'; break;
+                case 3: width = '60%'; color = '#ffc107'; break;
+                case 4: width = '80%'; color = '#28a745'; break;
+                case 5: width = '100%'; color = '#20c997'; break;
+            }
+            
+            meter.style.width = width;
+            meter.style.background = color;
+        }
+        
+        // Генерация ключа
+        async function deriveKey(password, salt) {
+            const encoder = new TextEncoder();
+            const keyMaterial = await crypto.subtle.importKey(
+                'raw',
+                encoder.encode(password),
+                'PBKDF2',
+                false,
+                ['deriveKey']
+            );
+            
+            return await crypto.subtle.deriveKey(
+                {
+                    name: 'PBKDF2',
+                    salt: salt,
+                    iterations: iterations,
+                    hash: 'SHA-256'
+                },
+                keyMaterial,
+                { name: 'AES-GCM', length: 256 },
+                false,
+                ['encrypt', 'decrypt']
+            );
+        }
+        
+        // Получение расширения файла
+        function getFileExtension() {
+            const select = document.getElementById('fileExtension');
+            const selectedValue = select.value;
+            
+            if (selectedValue === 'custom') {
+                const customExt = document.getElementById('customExtension').value.trim();
+                return customExt.startsWith('.') ? customExt : '.' + customExt;
+            }
+            
+            return selectedValue;
+        }
+        
+        // Получение имени файла для шифрования
+        function getOutputFileName() {
+            let name = document.getElementById('outputFileName').value.trim();
+            if (!name) name = 'encrypted_data';
+            
+            // Удаляем существующее расширение, если есть
+            name = name.replace(/\.[^/.]+$/, '');
+            
+            return name + getFileExtension();
+        }
+        
+        // Шифрование текста
+        async function encryptText() {
+            try {
+                const plainText = document.getElementById('plainText').value.trim();
+                const password = document.getElementById('encryptPassword').value;
+                const passwordConfirm = document.getElementById('encryptPasswordConfirm').value;
+                const outputFileName = getOutputFileName();
+                
+                // Проверки
+                if (!plainText) {
+                    showStatus('Введите текст для шифрования', 'warning');
+                    return;
+                }
+                
+                if (!password || password.length < 6) {
+                    showStatus('Пароль должен быть не менее 6 символов', 'warning');
+                    return;
+                }
+                
+                if (password !== passwordConfirm) {
+                    showStatus('Пароли не совпадают', 'error');
+                    return;
+                }
+                
+                if (!checkCryptoSupport()) return;
+                
+                showStatus('Шифрование...', 'info');
+                
+                // Генерация случайных значений
+                const salt = crypto.getRandomValues(new Uint8Array(16));
+                const iv = crypto.getRandomValues(new Uint8Array(12));
+                
+                // Вывод ключа
+                const key = await deriveKey(password, salt);
+                
+                // Шифрование
+                const encoder = new TextEncoder();
+                const encrypted = await crypto.subtle.encrypt(
+                    {
+                        name: 'AES-GCM',
+                        iv: iv
+                    },
+                    key,
+                    encoder.encode(plainText)
+                );
+                
+                // Создание упрощенного бинарного формата
+                const version = new Uint8Array([2]); // Версия формата
+                const saltLength = new Uint8Array([salt.length]);
+                const ivLength = new Uint8Array([iv.length]);
+                
+                // Объединяем все в один ArrayBuffer
+                const totalLength = version.length + saltLength.length + salt.length + 
+                                  ivLength.length + iv.length + encrypted.byteLength;
+                const resultBuffer = new Uint8Array(totalLength);
+                
+                let offset = 0;
+                resultBuffer.set(version, offset); offset += version.length;
+                resultBuffer.set(saltLength, offset); offset += saltLength.length;
+                resultBuffer.set(salt, offset); offset += salt.length;
+                resultBuffer.set(ivLength, offset); offset += ivLength.length;
+                resultBuffer.set(iv, offset); offset += iv.length;
+                resultBuffer.set(new Uint8Array(encrypted), offset);
+                
+                // Конвертируем в Base64 для отображения
+                const base64Data = arrayBufferToBase64(resultBuffer.buffer);
+                
+                // Отображение результата
+                document.getElementById('encryptedOutput').textContent = base64Data;
+                document.getElementById('encryptResult').style.display = 'block';
+                
+                // Автоматически предлагаем сохранить файл
+                setTimeout(() => {
+                    saveEncryptedFile();
+                }, 500);
+                
+                showStatus('Текст успешно зашифрован!', 'success');
+                
+                if (autoClear) {
+                    setTimeout(() => clearEncryptForm(), 5000);
+                }
+                
+            } catch (error) {
+                showStatus(`Ошибка шифрования: ${error.message}`, 'error');
+            }
+        }
+        
+        // Сохранение зашифрованного файла
+        function saveEncryptedFile() {
+            const base64Data = document.getElementById('encryptedOutput').textContent;
+            if (!base64Data) {
+                showStatus('Нет данных для сохранения', 'warning');
+                return;
+            }
+            
+            const outputFileName = getOutputFileName();
+            const binaryData = base64ToArrayBuffer(base64Data);
+            const blob = new Blob([binaryData], { type: 'application/octet-stream' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = outputFileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showStatus(`Файл сохранен как ${outputFileName}`, 'success');
+        }
+        
+        // Парсинг ENC формата (старый формат для совместимости)
+        function parseEncFormat(encText) {
+            try {
+                const lines = encText.split('\n');
+                const result = {};
+                let inHeader = true;
+                let ciphertextLines = [];
+                
+                for (let line of lines) {
+                    line = line.trim();
+                    
+                    if (line === '-----BEGIN ENCRYPTED DATA-----') {
+                        continue;
+                    }
+                    
+                    if (line === '-----END ENCRYPTED DATA-----') {
+                        break;
+                    }
+                    
+                    if (inHeader) {
+                        if (line === '') {
+                            inHeader = false;
+                            continue;
+                        }
+                        
+                        const colonIndex = line.indexOf(':');
+                        if (colonIndex !== -1) {
+                            const key = line.substring(0, colonIndex).trim();
+                            const value = line.substring(colonIndex + 1).trim();
+                            result[key.toLowerCase().replace('-', '')] = value;
+                        }
+                    } else {
+                        if (line) {
+                            ciphertextLines.push(line);
+                        }
+                    }
+                }
+                
+                if (ciphertextLines.length > 0) {
+                    result.ciphertext = ciphertextLines.join('');
+                }
+                
+                // Проверка обязательных полей
+                if (!result.ciphertext) {
+                    return null;
+                }
+                
+                return {
+                    salt: base64ToArrayBuffer(result.salt),
+                    iv: base64ToArrayBuffer(result.iv),
+                    ciphertext: base64ToArrayBuffer(result.ciphertext)
+                };
+            } catch (error) {
+                return null;
+            }
+        }
+        
+        // Парсинг упрощенного бинарного формата
+        function parseSimpleEncFormat(base64Data) {
+            try {
+                const buffer = base64ToArrayBuffer(base64Data);
+                const view = new DataView(buffer);
+                
+                let offset = 0;
+                const version = view.getUint8(offset); offset += 1;
+                
+                if (version !== 2) {
+                    throw new Error('Неверная версия формата');
+                }
+                
+                const saltLength = view.getUint8(offset); offset += 1;
+                const salt = buffer.slice(offset, offset + saltLength); offset += saltLength;
+                
+                const ivLength = view.getUint8(offset); offset += 1;
+                const iv = buffer.slice(offset, offset + ivLength); offset += ivLength;
+                
+                const ciphertext = buffer.slice(offset);
+                
+                return {
+                    version: version,
+                    salt: salt,
+                    iv: iv,
+                    ciphertext: ciphertext
+                };
+            } catch (error) {
+                return null;
+            }
+        }
+        
+        // Дешифрование текста
+        async function decryptText() {
+            try {
+                let encryptedText = document.getElementById('encryptedText').value.trim();
+                const password = document.getElementById('decryptPassword').value;
+                
+                if (!encryptedText || !password) {
+                    showStatus('Введите данные и пароль', 'warning');
+                    return;
+                }
+                
+                if (!checkCryptoSupport()) return;
+                
+                showStatus('Дешифрование...', 'info');
+                
+                // Удаляем возможные пробелы и переносы строк (для Base64)
+                encryptedText = encryptedText.replace(/\s/g, '');
+                
+                let encryptedPackage;
+                
+                // Пробуем новый упрощенный формат
+                encryptedPackage = parseSimpleEncFormat(encryptedText);
+                
+                // Если не получилось, пробуем старый текстовый формат
+                if (!encryptedPackage && encryptedText.includes('-----BEGIN ENCRYPTED DATA-----')) {
+                    encryptedPackage = parseEncFormat(encryptedText);
+                }
+                
+                if (!encryptedPackage) {
+                    showStatus('Неверный формат зашифрованных данных', 'error');
+                    return;
+                }
+                
+                // Вывод ключа
+                const key = await deriveKey(password, encryptedPackage.salt);
+                
+                // Дешифрование
+                const decrypted = await crypto.subtle.decrypt(
+                    {
+                        name: 'AES-GCM',
+                        iv: encryptedPackage.iv
+                    },
+                    key,
+                    encryptedPackage.ciphertext
+                );
+                
+                // Декодирование результата
+                const decoder = new TextDecoder();
+                const decryptedText = decoder.decode(decrypted);
+                
+                // Отображение результата
+                document.getElementById('decryptedOutput').textContent = decryptedText;
+                document.getElementById('decryptResult').style.display = 'block';
+                
+                showStatus('Текст успешно расшифрован!', 'success');
+                
+                if (autoClear) {
+                    setTimeout(() => clearDecryptForm(), 5000);
+                }
+                
+            } catch (error) {
+                showStatus('Ошибка: Неверный пароль или поврежденные данные', 'error');
+            }
+        }
+        
+        // Сохранение расшифрованного файла
+        function saveDecryptedFile() {
+            const text = document.getElementById('decryptedOutput').textContent;
+            if (!text) {
+                showStatus('Нет данных для сохранения', 'warning');
+                return;
+            }
+            
+            const fileName = prompt('Введите имя для текстового файла:', 'decrypted_text.txt') || 'decrypted_text.txt';
+            const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+            
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            
+            showStatus(`Текст сохранен как ${fileName}`, 'success');
+        }
+        
+        // Копирование результата
+        function copyResult(elementId) {
+            const text = document.getElementById(elementId).textContent;
+            if (!text) {
+                showStatus('Нет данных для копирования', 'warning');
+                return;
+            }
+            
+            navigator.clipboard.writeText(text).then(() => {
+                showStatus('Скопировано в буфер обмена', 'success');
+            }).catch(err => {
+                showStatus('Ошибка копирования: ' + err.message, 'error');
+            });
+        }
+        
+        // Загрузка из файла
+        function loadFromFile(elementId) {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.enc,.crypt,.aes,.safe,.secure,.locked,.vault,.cipher,.txt,.json';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    document.getElementById(elementId).value = e.target.result;
+                    showStatus(`Файл "${file.name}" загружен`, 'success');
+                };
+                
+                reader.onerror = function() {
+                    showStatus('Ошибка чтения файла', 'error');
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+        
+        // Очистка формы шифрования
+        function clearEncryptForm() {
+            document.getElementById('plainText').value = '';
+            document.getElementById('encryptPassword').value = '';
+            document.getElementById('encryptPasswordConfirm').value = '';
+            document.getElementById('encryptResult').style.display = 'none';
+            document.getElementById('passwordStrength').style.width = '0%';
+            showStatus('Форма очищена', 'info');
+        }
+        
+        // Очистка формы дешифрования
+        function clearDecryptForm() {
+            document.getElementById('encryptedText').value = '';
+            document.getElementById('decryptPassword').value = '';
+            document.getElementById('decryptResult').style.display = 'none';
+            showStatus('Форма очищена', 'info');
+        }
+        
+        // Вспомогательные функции для работы с ArrayBuffer и Base64
+        function arrayBufferToBase64(buffer) {
+            const bytes = new Uint8Array(buffer);
+            let binary = '';
+            for (let i = 0; i < bytes.byteLength; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binary);
+        }
+        
+        function base64ToArrayBuffer(base64) {
+            const binaryString = atob(base64);
+            const bytes = new Uint8Array(binaryString.length);
+            for (let i = 0; i < binaryString.length; i++) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            return bytes.buffer;
+        }
+        
+        // Функции для работы с файлами
+        
+        // Обновление прогресса
+        function updateProgress(containerId, percent, text) {
+            const container = document.getElementById(containerId);
+            const bar = container.querySelector('.progress-fill');
+            const textEl = container.querySelector('#encryptProgressText, #decryptProgressText');
+            
+            if (bar) bar.style.width = `${percent}%`;
+            if (textEl) textEl.textContent = text || `${percent}%`;
+        }
+        
+        // Чтение файла как ArrayBuffer
+        function readFileAsArrayBuffer(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (e) => reject(new Error('Ошибка чтения файла'));
+                reader.readAsArrayBuffer(file);
+            });
+        }
+        
+        // Форматирование размера файла
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+        
+        // Отображение выбранных файлов
+        function updateSelectedFilesList() {
+            const container = document.getElementById('encryptSelectedFiles');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (selectedFiles.length === 0) {
+                container.innerHTML = '<p style="color: var(--gray); text-align: center; padding: 20px;">Файлы не выбраны</p>';
+                document.getElementById('encryptFileInfo').style.display = 'block';
+                return;
+            }
+            
+            let totalSize = 0;
+            selectedFiles.forEach((file, index) => {
+                totalSize += file.size;
+                
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `
+                    <div class="file-item-info">
+                        <div class="file-item-name">${file.name}</div>
+                        <div class="file-item-size">${formatFileSize(file.size)}</div>
+                    </div>
+                    <button class="remove-file-btn" onclick="removeFile(${index})" title="Удалить файл">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                container.appendChild(fileItem);
+            });
+            
+            // Отображение общей информации
+            const totalInfo = document.createElement('div');
+            totalInfo.style.marginTop = '10px';
+            totalInfo.style.fontSize = '0.9rem';
+            totalInfo.innerHTML = `
+                <strong>Всего файлов:</strong> ${selectedFiles.length} / ${MAX_FILES}<br>
+                <strong>Общий размер:</strong> ${formatFileSize(totalSize)}
+            `;
+            container.appendChild(totalInfo);
+            
+            document.getElementById('encryptFileInfo').style.display = 'block';
+        }
+        
+        // Удаление файла из списка
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            updateSelectedFilesList();
+            showStatus(`Файл удален из списка`, 'info');
+        }
+        
+        // Очистка списка файлов
+        function clearSelectedFiles(type) {
+            if (type === 'encrypt') {
+                selectedFiles = [];
+                document.getElementById('fileToEncrypt').value = '';
+                updateSelectedFilesList();
+                showStatus('Список файлов очищен', 'info');
+            }
+        }
+        
+        // Шифрование файлов
+        async function encryptFiles() {
+            if (selectedFiles.length === 0) {
+                showStatus('Выберите файлы для шифрования', 'warning');
+                return;
+            }
+            
+            const password = document.getElementById('fileEncryptPassword').value;
+            
+            if (!password || password.length < 6) {
+                showStatus('Пароль должен быть не менее 6 символов', 'warning');
+                return;
+            }
+            
+            if (!checkCryptoSupport()) return;
+            
+            // Получаем имя и расширение для архива
+            let archiveName = document.getElementById('filesOutputName').value.trim();
+            if (!archiveName) archiveName = 'encrypted_files';
+            
+            const extension = document.getElementById('filesExtension').value;
+            archiveName = archiveName.replace(/\.[^/.]+$/, '') + extension;
+            
+            document.getElementById('encryptProgress').style.display = 'block';
+            updateProgress('encryptProgress', 0, 'Подготовка...');
+            
+            try {
+                const results = [];
+                
+                for (let i = 0; i < selectedFiles.length; i++) {
+                    const file = selectedFiles[i];
+                    const progress = Math.round((i / selectedFiles.length) * 100);
+                    updateProgress('encryptProgress', progress, `Шифрование файла ${i + 1} из ${selectedFiles.length}: ${file.name}`);
+                    
+                    const fileData = await readFileAsArrayBuffer(file);
+                    const salt = crypto.getRandomValues(new Uint8Array(16));
+                    const iv = crypto.getRandomValues(new Uint8Array(12));
+                    
+                    const key = await deriveKey(password, salt);
+                    
+                    const encrypted = await crypto.subtle.encrypt(
+                        {
+                            name: 'AES-GCM',
+                            iv: iv
+                        },
+                        key,
+                        fileData
+                    );
+                    
+                    // Создаем упрощенный бинарный формат для каждого файла
+                    const version = new Uint8Array([2]);
+                    const saltLength = new Uint8Array([salt.length]);
+                    const ivLength = new Uint8Array([iv.length]);
+                    
+                    const totalLength = version.length + saltLength.length + salt.length + 
+                                      ivLength.length + iv.length + encrypted.byteLength;
+                    const resultBuffer = new Uint8Array(totalLength);
+                    
+                    let offset = 0;
+                    resultBuffer.set(version, offset); offset += version.length;
+                    resultBuffer.set(saltLength, offset); offset += saltLength.length;
+                    resultBuffer.set(salt, offset); offset += salt.length;
+                    resultBuffer.set(ivLength, offset); offset += ivLength.length;
+                    resultBuffer.set(iv, offset); offset += iv.length;
+                    resultBuffer.set(new Uint8Array(encrypted), offset);
+                    
+                    results.push({
+                        filename: file.name,
+                        filetype: file.type,
+                        filesize: file.size,
+                        data: arrayBufferToBase64(resultBuffer.buffer)
+                    });
+                }
+                
+                updateProgress('encryptProgress', 90, 'Создание архива...');
+                
+                // Создаем JSON архив с файлами
+                const archive = {
+                    version: '3.0',
+                    algorithm: 'AES-256-GCM',
+                    files: results,
+                    timestamp: new Date().toISOString(),
+                    fileCount: results.length
+                };
+                
+                const archiveText = JSON.stringify(archive, null, 2);
+                const blob = new Blob([archiveText], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                
+                // Предлагаем сохранить файл
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = archiveName;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+                
+                updateProgress('encryptProgress', 100, 'Готово!');
+                showStatus(`${selectedFiles.length} файлов успешно зашифрованы!`, 'success');
+                
+                setTimeout(() => {
+                    document.getElementById('encryptProgress').style.display = 'none';
+                    if (autoClear) {
+                        clearSelectedFiles('encrypt');
+                        document.getElementById('fileEncryptPassword').value = '';
+                    }
+                }, 2000);
+                
+            } catch (error) {
+                showStatus(`Ошибка шифрования: ${error.message}`, 'error');
+                document.getElementById('encryptProgress').style.display = 'none';
+            }
+        }
+        
+        // Дешифрование файла
+        async function decryptFile() {
+            const fileInput = document.getElementById('fileToDecrypt');
+            const password = document.getElementById('fileDecryptPassword').value;
+            
+            if (!fileInput.files.length) {
+                showStatus('Выберите файл для дешифрования', 'warning');
+                return;
+            }
+            
+            if (!password) {
+                showStatus('Введите пароль для дешифровки', 'warning');
+                return;
+            }
+            
+            if (!checkCryptoSupport()) return;
+            
+            const file = fileInput.files[0];
+            
+            document.getElementById('decryptProgress').style.display = 'block';
+            updateProgress('decryptProgress', 0, 'Чтение файла...');
+            
+            const reader = new FileReader();
+            
+            reader.onload = async function(e) {
+                try {
+                    updateProgress('decryptProgress', 30, 'Анализ формата...');
+                    
+                    const fileContent = e.target.result;
+                    const text = new TextDecoder().decode(fileContent);
+                    let encryptedData;
+                    
+                    // Пробуем распарсить как JSON архив
+                    try {
+                        const archive = JSON.parse(text);
+                        if (archive.files && Array.isArray(archive.files)) {
+                            // Это архив с несколькими файлами
+                            for (let i = 0; i < archive.files.length; i++) {
+                                const fileData = archive.files[i];
+                                const progress = 30 + Math.round((i / archive.files.length) * 60);
+                                updateProgress('decryptProgress', progress, `Дешифрование файла ${i + 1} из ${archive.files.length}`);
+                                
+                                const filePackage = parseSimpleEncFormat(fileData.data);
+                                if (!filePackage) {
+                                    throw new Error('Неверный формат файла в архиве');
+                                }
+                                
+                                const key = await deriveKey(password, filePackage.salt);
+                                
+                                const decrypted = await crypto.subtle.decrypt(
+                                    {
+                                        name: 'AES-GCM',
+                                        iv: filePackage.iv
+                                    },
+                                    key,
+                                    filePackage.ciphertext
+                                );
+                                
+                                let filename = fileData.filename;
+                                if (archive.files.length > 1) {
+                                    const suggestedName = filename.startsWith('decrypted_') ? 
+                                        filename : `decrypted_${filename}`;
+                                    const newName = prompt(`Введите имя для файла "${filename}":`, suggestedName);
+                                    if (newName) filename = newName;
+                                    else filename = suggestedName;
+                                } else {
+                                    const suggestedName = filename.startsWith('decrypted_') ? 
+                                        filename : `decrypted_${filename}`;
+                                    const newName = prompt('Введите имя для дешифрованного файла:', suggestedName);
+                                    if (newName) filename = newName;
+                                    else filename = suggestedName;
+                                }
+                                
+                                const blob = new Blob([decrypted], { 
+                                    type: fileData.filetype || 'application/octet-stream' 
+                                });
+                                const url = URL.createObjectURL(blob);
+                                
+                                const a = document.createElement('a');
+                                a.href = url;
+                                a.download = filename;
+                                document.body.appendChild(a);
+                                a.click();
+                                document.body.removeChild(a);
+                                URL.revokeObjectURL(url);
+                            }
+                            
+                            updateProgress('decryptProgress', 100, 'Готово!');
+                            showStatus(`${archive.files.length} файлов успешно расшифрованы!`, 'success');
+                        } else {
+                            throw new Error('Неверный формат архива');
+                        }
+                    } catch (jsonError) {
+                        // Не JSON, пробуем как одиночный файл
+                        updateProgress('decryptProgress', 50, 'Дешифрование файла...');
+                        
+                        const filePackage = parseSimpleEncFormat(text) || parseEncFormat(text);
+                        if (!filePackage) {
+                            throw new Error('Неверный формат файла');
+                        }
+                        
+                        const key = await deriveKey(password, filePackage.salt);
+                        
+                        updateProgress('decryptProgress', 75, 'Обработка...');
+                        
+                        const decrypted = await crypto.subtle.decrypt(
+                            {
+                                name: 'AES-GCM',
+                                iv: filePackage.iv
+                            },
+                            key,
+                            filePackage.ciphertext
+                        );
+                        
+                        // Запрашиваем имя файла
+                        let filename = file.name.replace(/\.[^/.]+$/, '');
+                        const suggestedName = filename.startsWith('decrypted_') ? 
+                            filename : `decrypted_${filename}`;
+                        const newFilename = prompt('Введите имя для дешифрованного файла:', suggestedName) || suggestedName;
+                        
+                        const blob = new Blob([decrypted], { 
+                            type: file.type || 'application/octet-stream' 
+                        });
+                        const url = URL.createObjectURL(blob);
+                        
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = newFilename;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                        
+                        updateProgress('decryptProgress', 100, 'Готово!');
+                        showStatus('Файл успешно расшифрован!', 'success');
+                    }
+                    
+                    setTimeout(() => {
+                        document.getElementById('decryptProgress').style.display = 'none';
+                    }, 2000);
+                    
+                } catch (error) {
+                    showStatus('Ошибка: Неверный пароль или поврежденный файл', 'error');
+                    document.getElementById('decryptProgress').style.display = 'none';
+                }
+            };
+            
+            reader.onerror = function() {
+                showStatus('Ошибка чтения файла', 'error');
+                document.getElementById('decryptProgress').style.display = 'none';
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+        
+        // Функции для работы с хранилищем
+        
+        // Настройка хранилища
+        function setupStorage() {
+            const name = document.getElementById('storageName').value.trim();
+            const password = document.getElementById('storagePassword').value;
+            const confirmPassword = document.getElementById('storagePasswordConfirm').value;
+            
+            if (!name) {
+                showStatus('Введите имя хранилища', 'warning');
+                return;
+            }
+            
+            if (!password || password.length < 8) {
+                showStatus('Пароль должен быть не менее 8 символов', 'warning');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showStatus('Пароли не совпадают', 'error');
+                return;
+            }
+            
+            // Сохраняем хэш пароля (в реальном приложении нужно использовать безопасное хэширование)
+            storagePassword = btoa(encodeURIComponent(password));
+            
+            virtualStorage = {
+                name: name,
+                created: new Date().toISOString(),
+                files: [],
+                folders: ['/Основные_файлы/', '/Архивы/', '/Конфиденциальные/'],
+                passwordHash: storagePassword
+            };
+            
+            localStorage.setItem('cryptoAppStorage', JSON.stringify(virtualStorage));
+            
+            // Обновляем интерфейс
+            document.getElementById('currentStorageName').textContent = name;
+            document.getElementById('storageCreated').textContent = new Date().toLocaleString();
+            document.getElementById('storageFileCount').textContent = '0';
+            document.getElementById('virtualPath').textContent = `/${name.replace(/\s+/g, '_')}/`;
+            document.getElementById('storageInfoCard').style.display = 'block';
+            
+            isStorageSetup = true;
+            document.getElementById('accessStorageBtn').style.display = 'block';
+            showStatus('Хранилище успешно создано и защищено паролем!', 'success');
+        }
+        
+        // Доступ к хранилищу
+        function accessStorage() {
+            const password = prompt('Введите мастер-пароль для доступа к хранилищу:');
+            if (!password) return;
+            
+            // Проверка пароля (упрощённая)
+            const enteredHash = btoa(encodeURIComponent(password));
+            if (enteredHash === virtualStorage.passwordHash) {
+                // Показываем информацию о хранилище
+                document.getElementById('currentStorageName').textContent = virtualStorage.name;
+                document.getElementById('storageCreated').textContent = new Date(virtualStorage.created).toLocaleString();
+                document.getElementById('storageFileCount').textContent = virtualStorage.files.length;
+                document.getElementById('virtualPath').textContent = `/${virtualStorage.name.replace(/\s+/g, '_')}/`;
+                document.getElementById('storageInfoCard').style.display = 'block';
+                
+                showStatus('Доступ к хранилищу разрешен', 'success');
+            } else {
+                showStatus('Неверный пароль', 'error');
+            }
+        }
+        
+        // Просмотр файлов в хранилище
+        function browseStorage() {
+            if (!isStorageSetup) {
+                showStatus('Сначала настройте хранилище', 'warning');
+                return;
+            }
+            
+            const password = prompt('Введите мастер-пароль для просмотра файлов:');
+            if (!password) return;
+            
+            const enteredHash = btoa(encodeURIComponent(password));
+            if (enteredHash !== virtualStorage.passwordHash) {
+                showStatus('Неверный пароль', 'error');
+                return;
+            }
+            
+            let fileList = 'Файлы в хранилище:\n\n';
+            if (virtualStorage.files.length === 0) {
+                fileList += 'Хранилище пустое\n';
+            } else {
+                virtualStorage.files.forEach((file, index) => {
+                    fileList += `${index + 1}. ${file.name} (${formatFileSize(file.size)})\n`;
+                });
+            }
+            
+            fileList += `\nВсего файлов: ${virtualStorage.files.length}`;
+            alert(fileList);
+        }
+        
+        // Добавление файла в хранилище
+        function addFileToStorage() {
+            if (!isStorageSetup) {
+                showStatus('Сначала настройте хранилище', 'warning');
+                return;
+            }
+            
+            const password = prompt('Введите мастер-пароль для добавления файла:');
+            if (!password) return;
+            
+            const enteredHash = btoa(encodeURIComponent(password));
+            if (enteredHash !== virtualStorage.passwordHash) {
+                showStatus('Неверный пароль', 'error');
+                return;
+            }
+            
+            const input = document.createElement('input');
+            input.type = 'file';
+            
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Сохраняем файл в виртуальное хранилище
+                    const fileData = {
+                        name: file.name,
+                        size: file.size,
+                        type: file.type,
+                        lastModified: file.lastModified,
+                        data: e.target.result,
+                        added: new Date().toISOString()
+                    };
+                    
+                    virtualStorage.files.push(fileData);
+                    localStorage.setItem('cryptoAppStorage', JSON.stringify(virtualStorage));
+                    
+                    document.getElementById('storageFileCount').textContent = virtualStorage.files.length;
+                    showStatus(`Файл "${file.name}" добавлен в хранилище`, 'success');
+                };
+                
+                reader.onerror = function() {
+                    showStatus('Ошибка чтения файла', 'error');
+                };
+                
+                reader.readAsDataURL(file);
+            };
+            
+            input.click();
+        }
+        
+        // Очистка хранилища
+        function clearStorage() {
+            if (!isStorageSetup) return;
+            
+            if (confirm('Вы уверены, что хотите очистить хранилище? Все файлы будут удалены.')) {
+                virtualStorage.files = [];
+                localStorage.setItem('cryptoAppStorage', JSON.stringify(virtualStorage));
+                
+                document.getElementById('storageFileCount').textContent = '0';
+                showStatus('Хранилище очищено', 'success');
+            }
+        }
+        
+        // Модальные окна
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+        
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+        
+        // Создание виртуальной папки
+        function createVirtualFolder() {
+            const folderName = document.getElementById('newFolderName').value.trim();
+            if (!folderName) {
+                showStatus('Введите имя папки', 'warning');
+                return;
+            }
+            
+            if (virtualStorage.folders.includes('/' + folderName + '/')) {
+                showStatus('Папка уже существует', 'warning');
+                return;
+            }
+            
+            virtualStorage.folders.push('/' + folderName + '/');
+            localStorage.setItem('cryptoAppStorage', JSON.stringify(virtualStorage));
+            
+            showStatus(`Папка "${folderName}" создана`, 'success');
+            document.getElementById('newFolderName').value = '';
+        }
+        
+        // Настройка обработчиков событий
+        function setupEventListeners() {
+            // Отслеживание силы пароля
+            document.getElementById('encryptPassword').addEventListener('input', updatePasswordStrength);
+            
+            // Обработка выбора файлов для шифрования
+            document.getElementById('fileToEncrypt').addEventListener('change', function(e) {
+                const files = Array.from(e.target.files);
+                
+                if (files.length > MAX_FILES) {
+                    showStatus(`Максимум ${MAX_FILES} файлов`, 'warning');
+                    this.value = '';
+                    return;
+                }
+                
+                // Обновляем список файлов
+                selectedFiles = files;
+                updateSelectedFilesList();
+                
+                // Обновляем текст в label
+                const label = this.nextElementSibling;
+                const labelText = label.querySelector('div:nth-child(2)');
+                if (files.length === 1) {
+                    labelText.textContent = `Выбран файл: ${files[0].name}`;
+                } else {
+                    labelText.textContent = `Выбрано файлов: ${files.length}`;
+                }
+                
+                showStatus(`Выбрано ${files.length} файлов`, 'success');
+            });
+            
+            // Drag and drop для файлов
+            const dropZones = document.querySelectorAll('.file-input-label');
+            dropZones.forEach(zone => {
+                zone.addEventListener('dragover', e => {
+                    e.preventDefault();
+                    zone.style.borderColor = '#4361ee';
+                    zone.style.background = 'rgba(67, 97, 238, 0.1)';
+                });
+                
+                zone.addEventListener('dragleave', e => {
+                    e.preventDefault();
+                    zone.style.borderColor = '';
+                    zone.style.background = '';
+                });
+                
+                zone.addEventListener('drop', e => {
+                    e.preventDefault();
+                    zone.style.borderColor = '';
+                    zone.style.background = '';
+                    
+                    const files = Array.from(e.dataTransfer.files);
+                    
+                    // Для шифрования файлов
+                    if (zone.htmlFor === 'fileToEncrypt' || zone.previousElementSibling.id === 'fileToEncrypt') {
+                        if (files.length > MAX_FILES) {
+                            showStatus(`Максимум ${MAX_FILES} файлов`, 'warning');
+                            return;
+                        }
+                        
+                        selectedFiles = files;
+                        updateSelectedFilesList();
+                        
+                        // Обновляем input
+                        const input = zone.previousElementSibling;
+                        const dataTransfer = new DataTransfer();
+                        files.forEach(file => dataTransfer.items.add(file));
+                        input.files = dataTransfer.files;
+                        
+                        // Обновляем текст label
+                        const labelText = zone.querySelector('div:nth-child(2)');
+                        if (files.length === 1) {
+                            labelText.textContent = `Выбран файл: ${files[0].name}`;
+                        } else {
+                            labelText.textContent = `Выбрано файлов: ${files.length}`;
+                        }
+                        
+                        showStatus(`Выбрано ${files.length} файлов`, 'success');
+                    }
+                });
+            });
+            
+            // Информация о выбранных файлах для дешифрования
+            document.getElementById('fileToDecrypt').addEventListener('change', function(e) {
+                if (this.files.length > 0) {
+                    const file = this.files[0];
+                    const fileInfo = this.nextElementSibling.nextElementSibling;
+                    
+                    if (fileInfo && fileInfo.classList.contains('file-info')) {
+                        fileInfo.innerHTML = `
+                            <strong>Выбран файл:</strong> ${file.name}<br>
+                            <strong>Размер:</strong> ${formatFileSize(file.size)}<br>
+                            <strong>Тип:</strong> ${file.type || 'неизвестен'}
+                        `;
+                        fileInfo.style.display = 'block';
+                    }
+                    
+                    showStatus(`Файл "${file.name}" выбран`, 'success');
+                }
+            });
+            
+            // Сохранение настроек при изменении
+            document.getElementById('iterations').addEventListener('change', saveSettings);
+            document.getElementById('autoClear').addEventListener('change', saveSettings);
+            document.getElementById('hidePasswords').addEventListener('change', saveSettings);
+        }
+    </script>
+</body>
+  </html>
